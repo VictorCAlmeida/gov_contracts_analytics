@@ -66,3 +66,37 @@ Projeto_controladoria_GOV/
 │   └── montar_tabelas.py # Aplicação das regras de negócio e modelo de dados
 ├── .env                  # Variáveis de ambiente sensíveis (credenciais DB)
 └── README.md             # Documentação principal do projeto
+
+---
+
+## 🔍 Consultas de Auditoria (Controladoria)
+
+As 6 perguntas centrais de negócio foram respondidas utilizando consultas SQL estruturadas com joins relacionais (`fato_item_contratado` com as dimensões de órgãos, fornecedores, modalidades e localidades) e tratamentos robustos de nulos (`NULLIF`, `COUNT(*)`).
+
+### 1. Economia Global do Poder Público
+Calcula o valor estimado da base comparável, o valor homologado e a taxa de deságio/economia percentual global.
+* **Resultado Esperado (Prova Real)**: Economia nominal de ~R$ 992,86 milhões, representando um deságio de **14,46%** sobre uma base comparável de R$ 6,86 bilhões.
+
+### 2. Concentração e Risco de Fornecedores
+Identifica os 10 maiores fornecedores em volume financeiro e o respetivo peso percentual no orçamento total.
+* **Consulta SQL (`sql/02_perguntas.sql`)**: Agrupa por fornecedor ordenando de forma descendente com restrição `LIMIT 10`.
+
+### 3. Eficácia por Modalidade
+Mapeia o volume financeiro movimentado e o deságio obtido em cada modalidade licitatória.
+* **Destaque**: Modalidades como Pregão Eletrônico e Concorrência concentram os maiores fluxos de recursos públicos.
+
+### 4. Tempo do Ciclo de Compras
+Mede a duração média (em dias) entre a publicação do edital e a homologação por órgão público (com filtro mínimo de 5 itens).
+* **Resultado Esperado (Prova Real)**: Ciclo médio global de **48,1 dias**, com um máximo registado de **611 dias**.
+
+### 5. Distribuição Regional
+Agrega os dados por estados (UFs) e regiões geográficas para identificar os maiores volumes de despesas e descontos.
+
+### 6. Perfil dos Gastos
+Distribui os recursos públicos nas categorias estruturadas via Regex (Obras e Engenharia, Serviços, e Bens).
+* **Perfil Oficial**: 
+  * Obras e engenharia: **60,8%** do volume homologado.
+  * Serviços: **36,6%**.
+  * Bens: **2,6%**.
+
+---
